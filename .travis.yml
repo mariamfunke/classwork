@@ -27,3 +27,4 @@ after_success:
   - docker push bravytech/udagram_user:v2022_1
   - docker push bravytech/udagram_frontend:v2022_1
   - docker push bravytech/udagram_reverseproxy:v2022_1
+  - echo "---------------->  Done pushing  <--------------------"
