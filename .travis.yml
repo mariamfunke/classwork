@@ -1,0 +1,29 @@
+language: node_js
+
+
+services:
+  - docker
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version # print the version for logging
+  - docker-compose -f docker-compose-build.yaml build --parallel  #Build parallel
+  - echo "---------------->  Project build successfully  <--------------------"
+  - docker tag udagram_feed bravytech/udagram_feed:v2022_1   # Do similar for other three images
+  - docker tag udagram_user bravytech/udagram_user:v2022_1   # Do similar for other three images
+  - docker tag udagram_frontend bravytech/udagram_frontend:v2022_1   # Do similar for other three images
+  - docker tag reverseproxy bravytech/udagram_reverseproxy:v2022_1   # Do similar for other three images
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push bravytech/udagram_feed:v2022_1
+  - docker push bravytech/udagram_user:v2022_1
+  - docker push bravytech/udagram_frontend:v2022_1
+  - docker push bravytech/udagram_reverseproxy:v2022_1
